@@ -19,10 +19,28 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
+    # Admin panel
     path('admin/', admin.site.urls),
-    path('restaurant', include('restaurant.urls')),
+    
+    # Restaurant app URLs
+    path('restaurant/', include('restaurant.urls')),
+    
+    # API Root (opcional - redirige a restaurant)
+    path('', include('restaurant.urls')),
+    
+    # Django REST Framework browsable API login/logout
+    path('api-auth/', include('rest_framework.urls')),
 ]
+
+# Servir archivos media en desarrollo
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static files during development
 if settings.DEBUG:

@@ -4,6 +4,7 @@ from rest_framework import status, viewsets, mixins, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from .models import Booking, Menu
 from .serializers import UserSerializer, BookingSerializer, MenuSerializer
 
@@ -198,26 +199,63 @@ class BookingDetailGeneric(generics.RetrieveUpdateDestroyAPIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    ViewSet que proporciona automáticamente acciones CRUD para usuarios
+    ViewSet para gestión de usuarios
+    - Solo ADMINISTRADORES pueden crear/editar/eliminar usuarios
+    - Usuarios autenticados pueden VER la lista de usuarios
+    - Usuarios no autenticados NO pueden hacer nada
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    
+    def get_permissions(self):
+        """
+        Permisos específicos por acción
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            # Solo administradores pueden crear/editar/eliminar usuarios
+            permission_classes = [IsAdminUser]
+        elif self.action in ['list', 'retrieve']:
+            # Usuarios autenticados pueden ver usuarios
+            permission_classes = [IsAuthenticated]
+        else:
+            # Por defecto, requiere autenticación
+            permission_classes = [IsAuthenticated]
+        
+        return [permission() for permission in permission_classes]
 
 
 class BookingViewSet(viewsets.ModelViewSet):
     """
-    ViewSet que proporciona automáticamente acciones CRUD para reservas
+    ViewSet para reservas
+    - Usuarios autenticados pueden crear/ver/editar sus reservas
+    - Usuarios no autenticados solo pueden VER (solo lectura)
     """
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Autenticados pueden modificar, otros solo leer
 
 
 class MenuViewSet(viewsets.ModelViewSet):
     """
-    ViewSet que proporciona automáticamente acciones CRUD para menú
+    ViewSet para menú
+    - Solo ADMINISTRADORES pueden modificar el menú
+    - Todos pueden VER el menú (para elegir platos)
     """
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+    
+    def get_permissions(self):
+        """
+        Permisos específicos por acción
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            # Solo administradores pueden modificar el menú
+            permission_classes = [IsAdminUser]
+        else:
+            # Todos pueden ver el menú
+            permission_classes = [AllowAny]
+        
+        return [permission() for permission in permission_classes]
 
 
 # ===========================================

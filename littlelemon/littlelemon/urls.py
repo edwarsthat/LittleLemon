@@ -19,11 +19,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-
 urlpatterns = [
     # Admin panel
     path('admin/', admin.site.urls),
@@ -36,6 +31,10 @@ urlpatterns = [
     
     # Django REST Framework browsable API login/logout
     path('api-auth/', include('rest_framework.urls')),
+    
+    # Djoser authentication endpoints
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 ]
 
 # Servir archivos media en desarrollo

@@ -1,10 +1,11 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import status, viewsets, mixins, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .models import Booking, Menu
 from .serializers import UserSerializer, BookingSerializer, MenuSerializer
 
@@ -227,12 +228,11 @@ class UserViewSet(viewsets.ModelViewSet):
 class BookingViewSet(viewsets.ModelViewSet):
     """
     ViewSet para reservas
-    - Usuarios autenticados pueden crear/ver/editar sus reservas
-    - Usuarios no autenticados solo pueden VER (solo lectura)
+    - Solo usuarios autenticados pueden acceder a las reservas
     """
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # Autenticados pueden modificar, otros solo leer
+    permission_classes = [IsAuthenticated]
 
 
 class MenuViewSet(viewsets.ModelViewSet):

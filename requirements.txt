@@ -1,42 +1,50 @@
-# Core Django Dependencies
+# Little Lemon Restaurant API - Dependencias
+# ==========================================
+
+# Core Django Framework
 Django==5.2.3
+
+# Django REST Framework for API
 djangorestframework==3.15.2
-django-cors-headers==4.6.0
 
-# Configuration and Environment
-python-decouple==3.8
-django-environ==0.11.2
-dj-database-url==2.3.0
+# Authentication with Djoser (Token-based auth)
+djoser==2.3.1
 
-# Image Processing
+# Image processing (for static files)
 Pillow==10.4.0
 
-# API and Authentication
-djangorestframework-simplejwt==5.3.0
-django-filter==24.3
+# CORS headers (for frontend integration)
+django-cors-headers==4.6.0
 
-# Database Connectors (uncomment as needed)
-# psycopg2-binary==2.9.9  # For PostgreSQL
-# mysqlclient==2.2.4      # For MySQL
+# Environment variables management
+python-decouple==3.8
 
-# Production
-gunicorn==21.2.0
-whitenoise==6.6.0
+# Database URL parsing
+dj-database-url==2.3.0
 
-# Development and Debugging
-django-debug-toolbar==4.4.6
+# ==========================================
+# OPTIONAL DEPENDENCIES (uncomment if needed)
+# ==========================================
+
+# Production Server
+# gunicorn==21.2.0
+
+# Static files serving
+# whitenoise==6.6.0
+
+# Database Connectors
+# psycopg2-binary==2.9.9     # PostgreSQL
+# mysqlclient==2.2.4         # MySQL
+
+# Development Tools
+# django-debug-toolbar==4.4.6
 
 # Testing
-coverage==7.6.1
-pytest==8.3.2
-pytest-django==4.9.0
-factory-boy==3.3.1
+# pytest==8.3.2
+# pytest-django==4.9.0
+# coverage==7.6.1
 
 # Code Quality
-black==24.8.0
-flake8==7.1.1
-isort==5.13.2
-
-# Background Tasks (optional)
-# celery==5.4.0
-# redis==5.1.1
+# black==24.8.0
+# flake8==7.1.1
+# isort==5.13.2

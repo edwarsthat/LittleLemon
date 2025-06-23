@@ -1,0 +1,29 @@
+# Little Lemon Restaurant API - Dependencias de Desarrollo
+# ========================================================
+
+# Incluir dependencias principales
+-r requirements.txt
+
+# Servidor de desarrollo/producción
+gunicorn==21.2.0
+
+# Servir archivos estáticos en producción
+whitenoise==6.6.0
+
+# Herramientas de desarrollo
+django-debug-toolbar==4.4.6
+
+# Testing
+pytest==8.3.2
+pytest-django==4.9.0
+coverage==7.6.1
+factory-boy==3.3.1
+
+# Calidad de código
+black==24.8.0
+flake8==7.1.1
+isort==5.13.2
+
+# Documentación
+mkdocs==1.6.0
+mkdocs-material==9.5.42
